@@ -1,5 +1,4 @@
 const winston = require('winston');
-const LogzioWinstonTransport = require('winston-logzio');
 const config = require('./config');
 
 const enumerateErrorFormat = winston.format((info) => {
@@ -9,26 +8,16 @@ const enumerateErrorFormat = winston.format((info) => {
   return info;
 });
 
-const logzioWinstonTransport = new LogzioWinstonTransport({
-  name: 'playzeon',
-  host: config.logzio.host,
-});
-
 const logger = winston.createLogger({
   level: config.env === 'development' ? 'debug' : 'info',
   format: winston.format.combine(
     enumerateErrorFormat(),
-    config.env === 'development'
-      ? winston.format.colorize({
-          level: true,
-          colors: { info: 'blue', error: 'red' },
-        })
-      : winston.format.uncolorize(),
+    config.env === 'development' ? winston.format.colorize() : winston.format.uncolorize(),
     winston.format.splat(),
-    winston.format.printf(({ level, message }) => `${level}: ${message}`)
+    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    winston.format.printf(({ level, message, timestamp }) => `${timestamp} ${level}: ${message}`)
   ),
   transports: [
-    logzioWinstonTransport,
     new winston.transports.Console({
       stderrLevels: ['error'],
     }),

@@ -2,8 +2,11 @@ const express = require('express');
 const helmet = require('helmet');
 const compression = require('compression');
 const cors = require('cors');
+const passport = require('passport');
 const httpStatus = require('http-status');
 const bodyParser = require('body-parser');
+// const { jwtStrategy } = require('./config/passport');
+
 
 const app = express();
 
@@ -25,6 +28,11 @@ app.use(compression());
 app.use(cors());
 app.options('*', cors());
 
+// jwt authentication
+// app.use(passport.initialize());
+// passport.use('jwt', jwtStrategy);
+
+
 app.get('/', (req, res) => {
   res.send('hello world');
 });
@@ -36,12 +44,11 @@ app.use((req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
 });
 
-app.listen(port, () => console.log(`app listening on port ${port}`));
 
 // convert error to ApiError, if needed
-app.use(errorConverter);
+// app.use(errorConverter);
 
 // handle error
-app.use(errorHandler);
+// app.use(errorHandler);
 
 module.exports = app;
