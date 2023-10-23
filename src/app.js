@@ -1,13 +1,12 @@
-const express = require('express');
 const helmet = require('helmet');
 const compression = require('compression');
 const cors = require('cors');
-const passport = require('passport');
 const httpStatus = require('http-status');
-const bodyParser = require('body-parser');
-// const { jwtStrategy } = require('./config/passport');
-
-
+const router = require('./routes/index');
+const express = require('express');
+const { allowedMethods } = require('./middlewares/allowedMethods');
+const { errorConverter, errorHandler } = require('./middlewares/error');
+const ApiError = require('./utils/ApiError'); 
 const app = express();
 
 // set security HTTP headers
@@ -23,32 +22,25 @@ app.use(express.urlencoded({ extended: true }));
 
 // gzip compression
 app.use(compression());
+app.use(allowedMethods);
 
 // enable cors
 app.use(cors());
 app.options('*', cors());
 
-// jwt authentication
-// app.use(passport.initialize());
-// passport.use('jwt', jwtStrategy);
-
-
 app.get('/', (req, res) => {
   res.send('hello world');
 });
-
-// app.use('/api/v1/students', studentsRoutes);
+app.use('/api', router);
 
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
 });
-
-
-// convert error to ApiError, if needed
-// app.use(errorConverter);
+app.use(errorConverter);
 
 // handle error
-// app.use(errorHandler);
+app.use(errorHandler);
+
 
 module.exports = app;
