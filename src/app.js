@@ -8,6 +8,7 @@ const { allowedMethods } = require('./middlewares/allowedMethods');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError'); 
 const app = express();
+const db=require("../src/models")
 
 // set security HTTP headers
 app.use(helmet());

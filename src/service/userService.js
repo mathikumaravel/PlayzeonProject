@@ -1,17 +1,29 @@
 const httpStatus = require('http-status');
-const Users = require('../model/userModel');
+const db = require('../models')
 const ApiError = require('../utils/ApiError');
+const Organizations = require("../models/organizations.model");
 const createUser = async (value) => {
   try {
-    if (await Users.findOne({ where: { email: value.email } })) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+    // const existingUser = await Organization.findOne({ where: { email: 'test' } });
+    // if (existingUser) {
+    //   throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+    // }
+
+    const user = await Organizations.create(value);
+    const userDetails = user.dataValues;
+    const response = {
+      id: userDetails.id,
+      email: userDetails.email,
+      firstName: userDetails.firstName,
+      lastName: userDetails.lastName,
+      orgName: userDetails.orgName,
+      phoneNumber: userDetails.phoneNumber
     }
-      const user = await Users.create(value);
-      return user;
+    return response;
   } catch (error) {
     console.error('Error creating user:', error);
   }
-  };
-module.exports={
-    createUser
+};
+module.exports = {
+  createUser
 }

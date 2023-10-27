@@ -52,7 +52,7 @@
 //     login
 // }
 const httpStatus = require('http-status');
-const Users = require('../model/userModel');
+const UserDetails = require('../models/userDetails.model');
 const ApiError = require('../utils/ApiError');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -63,7 +63,7 @@ const login = async (req, res) => {
     console.log(res, "resssssssssss");
 
     try {
-        const user = await Users.findOne({
+        const user = await UserDetails.findOne({
             where: {
                 email: req.email,
                 password: req.password
@@ -99,16 +99,16 @@ const login = async (req, res) => {
         }
         return response;
 
-    //    return res.status(200).send({
-    //         id: userDetails.id,
-    //         email: userDetails.email,
-    //         firstName: userDetails.firstName,
-    //         lastName: userDetails.lastName,
-    //         orgName: userDetails.orgName,
-    //         phoneNumber: userDetails.phoneNumber,
-    //         // role: roles, // Add the roles if you fetched them
-    //         token: token
-    //     });
+       return res.status(200).send({
+            id: userDetails.id,
+            email: userDetails.email,
+            firstName: userDetails.firstName,
+            lastName: userDetails.lastName,
+            orgName: userDetails.orgName,
+            phoneNumber: userDetails.phoneNumber,
+            // role: roles, // Add the roles if you fetched them
+            token: token
+        });
     } catch (error) {
         console.error('Error user on user:', error);
         res.status(500).send({ message: 'Internal Server Error' });

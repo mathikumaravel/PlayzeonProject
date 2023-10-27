@@ -11,7 +11,7 @@ const errorConverter = (err, req, res, next) => {
     const message = error.message || httpStatus[statusCode];
     error = new ApiError(statusCode, message, false, err.stack);
   }
-  next(error);
+  next();
 };
 
 // eslint-disable-next-line no-unused-vars
