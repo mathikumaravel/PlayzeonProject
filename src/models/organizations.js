@@ -1,7 +1,8 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, Sequelize } = require('sequelize');
 const sequelize = require('../database/database.js');
+const users = require('./users.js');
 
-const Organizations = sequelize.define(
+const organizations = sequelize.define(
   'organizations',
   {
     id: {
@@ -48,10 +49,18 @@ const Organizations = sequelize.define(
       unique: true,
       allowNull: true,
     },
+    createBy: {
+      type: Sequelize.INTEGER,
+      references: {
+         model: 'users', 
+         key: 'id',
+      }
+  },
   },
   {
     underscored: true,
-    // Other model options go here
   }
 );
-module.exports = Organizations;
+
+organizations.hasOne(users, { foreignKey: 'createBy' });
+module.exports = organizations;

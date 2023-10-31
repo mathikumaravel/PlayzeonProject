@@ -11,14 +11,18 @@ const register = async (req, res) => {
     }
     const existingPhone = await authService.phoneCheck(user.phoneNumber);
     if (existingPhone) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'PhoneNumber already taken');
+      throw ApiError(httpStatus.BAD_REQUEST, 'PhoneNumber already taken');
     }
-    const userCreated = await authService.register(user);
-    res.status(201).json(userCreated);
+    const userCreatedorg = await authService.register(user);
+    const userCreated = await authService.userregister(user);
+    const orgUser =await authService.organizationUser(userCreatedorg.dataValues.id,userCreated._previousDataValues.id)
+
+    res.status(201).json({ userCreatedorg, userCreated,orgUser  }); // Wrap the response in an object
   } catch (error) {
     res.json({ message: error.message });
   }
 };
+
 module.exports = {
   register
 };
