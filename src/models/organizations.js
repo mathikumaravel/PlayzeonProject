@@ -49,7 +49,7 @@ const organizations = sequelize.define(
       unique: true,
       allowNull: true,
     },
-    createBy: {
+    createdBy: {
       type: Sequelize.INTEGER,
       references: {
          model: 'users', 
@@ -62,5 +62,5 @@ const organizations = sequelize.define(
   }
 );
 
-organizations.hasOne(users, { foreignKey: 'createBy' });
+organizations.hasOne(users, { foreignKey: 'createdBy' });
 module.exports = organizations;
