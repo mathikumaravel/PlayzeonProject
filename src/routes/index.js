@@ -8,7 +8,7 @@ const authRoute = require('./v1/auth.routes');
     {
       path: '/auth',
       route: authRoute,
-    }
+    },
   ];
   
   defaultRoutes.forEach((route) => {
