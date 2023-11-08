@@ -1,5 +1,4 @@
 const httpStatus = require('http-status');
-const nodemailer = require('nodemailer'); // Import nodemailer
 const authService = require('../services/auth.service.js');
 const ApiError = require('../utils/ApiError');
 const { mail } = require('../utils/sendEmail.js');

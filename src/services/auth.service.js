@@ -1,4 +1,5 @@
-const { hash } = require('bcryptjs');
+
+const bcrypt = require('bcrypt');
 const OrganizationUsers = require('../models/organizationUsers.js');
 const Organizations = require('../models/organizations.js');
 const Users = require('../models/users.js');
@@ -23,7 +24,7 @@ const register = async (user) => {
 };
 
 const userregister = async (user) => {
-  const hashedPassword = await hash(user.password, 12); // Use a higher number of rounds for stronger security
+  const hashedPassword = await bcrypt.hash(user.password, 12); // Use a higher number of rounds for stronger security
   const createdUser = await Users.create({ ...user, password: hashedPassword });
 
   const payload = {
