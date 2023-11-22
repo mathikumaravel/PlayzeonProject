@@ -2,18 +2,16 @@ const httpStatus = require("http-status");
 const organizations = require("../models/organizations");
 const userService = require('../services/user.service');
 const ApiError = require("../utils/ApiError");
-const account = async (req,res) =>{
+  const center = async (req,res) =>{
     try{
       await userService.accountDetails(req);
-      const response = await userService.accountDetails(req);
-      res.status(httpStatus.OK).send({response, message:'fetch successfully'})
-     }
+      }
     catch (error) { 
       console.log(error,"error");
       res.status(500).json({ message: error.message }); 
     }
   } 
-  const accountUpdate = async (req,res) =>{
+  const centerUpdate = async (req,res) =>{
     try{
       const accountdetails=req.body;
       await userService.accountDetailsUpdate(req);
@@ -36,11 +34,11 @@ const account = async (req,res) =>{
         phoneNumber: accountdetails.phoneNumber,
         updatedAt: accountdetails.updatedAt,
         role:accountdetails.role},{ where: { id: account.id } });
-        res.status(httpStatus.OK).send({ message:'Updated Successfully'})
+     res.status(httpStatus.OK).send({ message:'Updated Successfully'})
         }
   catch (error) { 
     console.log(error,"error");
       res.status(500).json({ message: error.message }); 
     }
   }
-  module.exports={account,accountUpdate}
+//   module.exports={account,accountUpdate}

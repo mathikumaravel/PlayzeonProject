@@ -1,9 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/database.js');
 
-
-const OrganizationUsers = sequelize.define(
-  'organization_users',
+const CenterUsers = sequelize.define(
+  'center_users',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -19,16 +18,16 @@ const OrganizationUsers = sequelize.define(
         key: 'id',
      }
     },
-    orgId:
+    centerId:
     {
-      field:'organization_id',
+      field:'center_id',
       type: DataTypes.INTEGER,
       references: {
-        model: 'organizations', 
+        model: 'centers', 
         key: 'id',
      }
     },
   }
 );
 
-module.exports = OrganizationUsers;
+module.exports = CenterUsers;
